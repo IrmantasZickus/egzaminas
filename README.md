@@ -4,9 +4,9 @@
 ```bash
 git clone https://github.com/IrmantasZickus/egzaminas.git
 ```
-2. Įeiname į darbo folderį
+2. Įeiname į egzamino folderį
 ```bash
-cd Darbas
+cd egzaminas
 ```
 3. Įsijungiame XAMPP Control Panel ir ant MySQL ir Apache paspaudžiame START
 

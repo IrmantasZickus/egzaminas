@@ -5,30 +5,30 @@ import pool from '../../lib/db';
 
 export const config = {
   api: {
-    bodyParser: false, // Disable body parsing
+    bodyParser: false, 
   },
 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    return res.status(405).json({ message: 'Metodas negalimas' });
   }
 
   const form = formidable({
-    uploadDir: path.join(process.cwd(), 'public/uploads'), // Set upload directory
-    keepExtensions: true, // Preserve file extensions
-    multiples: true, // Allow multiple files
+    uploadDir: path.join(process.cwd(), 'public/uploads'), // nustatom upload vieta
+    keepExtensions: true, // leidzia daug fileu
+    multiples: true, // leisti keleta failu
   });
 
   const uploadDir = path.join(process.cwd(), 'public/uploads');
   if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true }); // Ensure upload directory exists
+    fs.mkdirSync(uploadDir, { recursive: true });
   }
 
   form.parse(req, async (err, fields, files) => {
     if (err) {
-      console.error('Error parsing form:', err);
-      return res.status(500).json({ message: 'Error parsing form', error: err.message });
+      console.error('Nepavyko parsinti formos:', err);
+      return res.status(500).json({ message: 'Nepavyko parsinti formos', error: err.message });
     }
 
     console.log('Fields:', fields);
@@ -36,12 +36,12 @@ export default async function handler(req, res) {
 
     const { title, content, category, event_time, userId } = fields;
 
-    // Ensure all required fields are present
+    
     if (!title || !content || !category || !event_time || !userId) {
-      return res.status(400).json({ message: 'Missing required fields' });
+      return res.status(400).json({ message: 'Trūksta reikiamų laukų' });
     }
 
-    // Handle file uploads
+    // file uploadai
     const uploadedFiles = [];
     for (const key in files) {
       if (key.startsWith('images')) {
@@ -51,18 +51,18 @@ export default async function handler(req, res) {
           const newPath = path.join(uploadDir, newFileName);
 
           try {
-            fs.renameSync(file.filepath, newPath); // Move the file to the uploads directory
-            uploadedFiles.push(`/uploads/${newFileName}`); // Save relative path for database
+            fs.renameSync(file.filepath, newPath); // nusiuncia faila i upload
+            uploadedFiles.push(`/uploads/${newFileName}`); // issaugo path
           } catch (error) {
-            console.error('Error moving file:', error);
+            console.error('Nepavyko pamovinti file:', error);
           }
         });
       }
     }
 
-    console.log('Uploaded Files:', uploadedFiles); // Log uploaded files for debugging
+    console.log('Įkelti failus:', uploadedFiles);
 
-    // Save post and images in the database
+    // issaugoti postus ir nuotraukas db
     try {
       const query = `
         INSERT INTO posts (title, content, category, event_time, user_id, images)
@@ -74,14 +74,14 @@ export default async function handler(req, res) {
         category[0],
         new Date(event_time[0]),
         userId[0],
-        JSON.stringify(uploadedFiles), // Store as JSON string in database
+        JSON.stringify(uploadedFiles), 
       ];
 
       const [result] = await pool.query(query, values);
-      return res.status(200).json({ message: 'Post created successfully', postId: result.insertId });
+      return res.status(200).json({ message: 'Renginys sukurtas sėkmingai', postId: result.insertId });
     } catch (dbError) {
-      console.error('Database error:', dbError);
-      return res.status(500).json({ message: 'Database error', error: dbError.message });
+      console.error('Duomenų bazės error:', dbError);
+      return res.status(500).json({ message: 'Duomenų bazės error', error: dbError.message });
     }
   });
 };

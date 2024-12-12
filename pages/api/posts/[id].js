@@ -15,13 +15,13 @@ export default async function handler(req, res) {
       `, [id]);
 
       if (!result || result.length === 0) {
-        return res.status(404).json({ message: 'Post not found.' });
+        return res.status(404).json({ message: 'Renginys nerastas.' });
       }
 
       return res.status(200).json(result[0]);
     } catch (error) {
-      console.error('Error fetching post data:', error);
-      return res.status(500).json({ message: 'Error fetching post data.', error: error.message });
+      console.error('Nepavyko gauti renginio informacijos:', error);
+      return res.status(500).json({ message: 'Nepavyko gauti renginio informacijos.', error: error.message });
     }
   } else if (req.method === 'PUT') {
     const { title, content, category, event_time } = req.body;
@@ -37,26 +37,26 @@ export default async function handler(req, res) {
       );
 
       if (result.affectedRows === 0) {
-        return res.status(404).json({ message: 'Post not found.' });
+        return res.status(404).json({ message: 'Renginys nerastas.' });
       }
 
-      return res.status(200).json({ message: 'Post successfully updated.' });
+      return res.status(200).json({ message: 'Renginys atnaujintas sėkmingai.' });
     } catch (error) {
-      return res.status(500).json({ message: 'Error updating post.', error: error.message });
+      return res.status(500).json({ message: 'Nepavyko atnaujinto renginio.', error: error.message });
     }
   } else if (req.method === 'DELETE') {
     try {
       const result = await pool.query('DELETE FROM posts WHERE id = ?', [id]);
 
       if (result.affectedRows === 0) {
-        return res.status(404).json({ message: 'Post not found.' });
+        return res.status(404).json({ message: 'Renginys nerastas.' });
       }
 
-      return res.status(200).json({ message: 'Post successfully deleted.' });
+      return res.status(200).json({ message: 'Renginys sėkmingai ištrintas.' });
     } catch (error) {
-      return res.status(500).json({ message: 'Error deleting post.', error: error.message });
+      return res.status(500).json({ message: 'Nepavyko ištrinti renginio.', error: error.message });
     }
   } else {
-    res.status(405).json({ message: 'Method not allowed.' });
+    res.status(405).json({ message: 'Metodas negalimas.' });
   }
 }

@@ -12,10 +12,10 @@ export default async function handler(req, res) {
 
       res.status(200).json(posts);
     } catch (error) {
-      console.error('Failed to fetch posts:', error);
-      res.status(500).json({ message: 'Failed to fetch posts' });
+      console.error('Nepavyko gauti renginių:', error);
+      res.status(500).json({ message: 'Nepavyko gauti renginių' });
     }
   } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).json({ message: 'Metodas negalimas' });
   }
 }

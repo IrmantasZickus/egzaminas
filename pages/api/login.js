@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       const [user] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
 
       if (user.length === 0) {
-        return res.status(401).json({ message: 'Invalid email or password.' });
+        return res.status(401).json({ message: 'Neteisingas slaptažodis arba email.' });
       }
 
       const validPassword = await bcrypt.compare(password, user[0].password);

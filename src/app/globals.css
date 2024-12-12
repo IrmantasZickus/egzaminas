@@ -1,11 +1,10 @@
-/* Reset default padding and margin for the entire website */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Ensure that body takes full width and height without any margin */
 html, body {
   margin: 0;
   padding: 0;
@@ -13,7 +12,6 @@ html, body {
   height: 100%;
 }
 
-/* Optional: Adjust the main container for the website */
 .container {
   max-width: 100%;
   overflow-x: hidden;

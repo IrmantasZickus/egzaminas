@@ -2,7 +2,7 @@ import pool from '../../../lib/db';
 
 export default async function handler(req, res) {
   try {
-    // Fetch posts from the database
+    // gauti postus is db
     const [posts] = await pool.query('SELECT id, title, category, event_time, likes FROM posts');
     res.status(200).json(posts);
   } catch (error) {
