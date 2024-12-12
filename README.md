@@ -2,7 +2,7 @@
 
 1. Terminale klonuojame darbo repozitoriją
 ```bash
-git clone --branch egzaminas https://github.com/IrmantasZickus/AtsiskaitomiejiDarbai.git
+git clone https://github.com/IrmantasZickus/egzaminas.git
 ```
 2. Įeiname į darbo folderį
 ```bash
